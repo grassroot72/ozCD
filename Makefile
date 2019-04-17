@@ -1,4 +1,4 @@
-# ozccd makefile
+# ozCD makefile
 
 CC = gcc
 CFLAGS = -O2 -Wall -I /usr/include -D OZ_SINGLE -D BARY_GEPP
