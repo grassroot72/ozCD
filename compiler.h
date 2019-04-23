@@ -21,8 +21,4 @@
 #endif /* __GNUC__ */
 
 
-typedef unsigned int oz_uint_t;
-typedef unsigned char oz_uchar_t;
-
-
 #endif
