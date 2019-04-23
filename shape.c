@@ -13,6 +13,7 @@
 #include "type.h"
 #include "vec3.h"
 #include "quat.h"
+#include "apex_memmove.h"
 #include "shape.h"
 
 
@@ -102,7 +103,7 @@ _ozMeshSupport(oz_real_t *support_point,
       }
 
       if (vid == mesh._n_vert_neighbours[curr] - 1) {
-        memcpy(support_point, mesh._vertices + 3 * curr, 3 * sizeof(*support_point));
+        apex_memcpy(support_point, mesh._vertices + 3 * curr, 3 * sizeof(*support_point));
         return;
       }
     }
@@ -255,7 +256,7 @@ _ozHullSupport(oz_real_t *support_point,
   ozVec3FMAdd(temp_point, hull._tb.size, temp_point, hull._tb.pos);
 
   if (ozVec3Dot(temp_point, dir) > ozVec3Dot(support_point, dir)) {
-    memcpy(support_point, temp_point, 3 * sizeof(*support_point));
+    apex_memcpy(support_point, temp_point, 3 * sizeof(*support_point));
   }
 }
 
@@ -317,7 +318,7 @@ ozMeshInit(oz_mesh_t *mesh,
   mesh->support = _ozMeshSupport;
   mesh->_n_vertices = n_vertices;
   mesh->_vertices = (oz_real_t *)malloc(3 * n_vertices * sizeof(*vertices));
-  memcpy(mesh->_vertices, vertices, 3 * n_vertices * sizeof(*vertices));
+  apex_memcpy(mesh->_vertices, vertices, 3 * n_vertices * sizeof(*vertices));
 
   /** Find Edges **/
   /* Euler's formula */
@@ -346,7 +347,7 @@ ozMeshInit(oz_mesh_t *mesh,
         }
 
         if (fcount == 2) {
-          memcpy(edges + 2 * eid, edge, 2 * sizeof(*edge));
+          apex_memcpy(edges + 2 * eid, edge, 2 * sizeof(*edge));
           ++eid;
           fcount = 0;
         }
@@ -416,7 +417,7 @@ ozBoxInit(oz_box_t *box,
           const oz_real_t *extent)
 {
   box->support = _ozBoxSupport;
-  memcpy(box->_extent, extent, 3 * sizeof(*extent));
+  apex_memcpy(box->_extent, extent, 3 * sizeof(*extent));
 }
 
 void

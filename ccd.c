@@ -9,6 +9,7 @@
 
 #include "vec3.h"
 #include "quat.h"
+#include "apex_memmove.h"
 #include "simplex.h"
 #include "shape.h"
 #include "ccd.h"
@@ -128,7 +129,7 @@ ozGJKDist(oz_real_t *dist,
 
     if (ozSimplexContains(&simplex, new_point) ||
         dist2 - ozVec3Dot(dir, new_point) <= dist2 * OZ_GJK_RELATIVE_ERROR2) {
-      memcpy(dist, dir, 3 * sizeof(*dist));
+      apex_memcpy(dist, dir, 3 * sizeof(*dist));
       return;
     }
     ozSimplexAddPoint(&simplex, new_point);
@@ -145,7 +146,7 @@ ozGJKDist(oz_real_t *dist,
 
   } while (++fail_safe < 200);
 
-  memcpy(dist, dir, 3 * sizeof(*dist));
+  apex_memcpy(dist, dir, 3 * sizeof(*dist));
 }
 
 void

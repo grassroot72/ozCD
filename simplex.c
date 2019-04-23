@@ -9,6 +9,7 @@
 
 #include "type.h"
 #include "vec3.h"
+#include "apex_memmove.h"
 #include "simplex.h"
 
 
@@ -150,7 +151,7 @@ ozSimplexAddPoint(oz_simplex_t *simplex,
   simplex->_last_sb = pos;
   simplex->_bits |= b;        /* Insert the new bit */
   ++simplex->_size;
-  memcpy(simplex->_p + 3 * pos, point, 3 * sizeof(*point));
+  apex_memcpy(simplex->_p + 3 * pos, point, 3 * sizeof(*point));
   oz_real_t l2 = ozVec3Len2(point);
   if (l2 > simplex->_max_vert2) {
     simplex->_max_vert2 = l2;
@@ -164,8 +165,8 @@ ozSimplexAddPointWithInfo(oz_simplex_t *simplex,
                           const oz_real_t *pb)
 {
   ozSimplexAddPoint(simplex, point);
-  memcpy(simplex->_a + 3 * simplex->_last_sb, pa, 3 * sizeof(*pa));
-  memcpy(simplex->_b + 3 * simplex->_last_sb, pb, 3 * sizeof(*pb));
+  apex_memcpy(simplex->_a + 3 * simplex->_last_sb, pa, 3 * sizeof(*pa));
+  apex_memcpy(simplex->_b + 3 * simplex->_last_sb, pb, 3 * sizeof(*pb));
 }
 
 int
@@ -267,8 +268,8 @@ ozSimplexComputeClosestPoints(oz_simplex_t *simplex,
   }
 
   case 1: {
-    memcpy(pa, simplex->_a + 3 * simplex->_last_sb, 3 * sizeof(*pa));
-    memcpy(pb, simplex->_b + 3 * simplex->_last_sb, 3 * sizeof(*pb));
+    apex_memcpy(pa, simplex->_a + 3 * simplex->_last_sb, 3 * sizeof(*pa));
+    apex_memcpy(pb, simplex->_b + 3 * simplex->_last_sb, 3 * sizeof(*pb));
     break;
   }
 
@@ -309,7 +310,7 @@ ozSimplexClosest(oz_simplex_t *simplex,
         dot_aca >= OZ_REAL(0.0) &&
         dot_ada >= OZ_REAL(0.0)) {
       /* Take direction passing through origin */
-      memcpy(dir, a, 3 * sizeof(*dir));
+      apex_memcpy(dir, a, 3 * sizeof(*dir));
       ozSimplexRemovePoint(simplex, pos[0]);
       ozSimplexRemovePoint(simplex, pos[1]);
       ozSimplexRemovePoint(simplex, pos[2]);
@@ -461,7 +462,7 @@ ozSimplexClosest(oz_simplex_t *simplex,
 
     if (dot_aba <= OZ_REAL(0.0) && dot_aca <= OZ_REAL(0.0)) {
       /* Take direction passing through origin */
-      memcpy(dir, a, 3 * sizeof(*dir));
+      apex_memcpy(dir, a, 3 * sizeof(*dir));
       ozSimplexRemovePoint(simplex, pos[0]);
       ozSimplexRemovePoint(simplex, pos[1]);
       break;
@@ -517,7 +518,7 @@ ozSimplexClosest(oz_simplex_t *simplex,
 
     if (t <= OZ_REAL(0.0)) {
       /* Take direction passing through origin */
-      memcpy(dir, a, 3 * sizeof(*dir));
+      apex_memcpy(dir, a, 3 * sizeof(*dir));
       ozSimplexRemovePoint(simplex, pos[0]);
       break;
     }
@@ -526,7 +527,7 @@ ozSimplexClosest(oz_simplex_t *simplex,
     if (t >= denom) {
       ozSimplexRemovePoint(simplex, simplex->_last_sb);
       simplex->_last_sb = pos[0];
-      memcpy(dir, b, 3 * sizeof(*dir));
+      apex_memcpy(dir, b, 3 * sizeof(*dir));
       break;
     }
 
@@ -536,7 +537,7 @@ ozSimplexClosest(oz_simplex_t *simplex,
 
   case 1:
   {
-    memcpy(dir, simplex->_p + 3 * simplex->_last_sb, 3 * sizeof(*dir));
+    apex_memcpy(dir, simplex->_p + 3 * simplex->_last_sb, 3 * sizeof(*dir));
     break;
   }
 
@@ -591,13 +592,13 @@ ozSimplexContainsOrigin(oz_simplex_t *simplex,
         ozVec3SMul(abcPerp, -OZ_REAL(1.0), abxac);
       }
       else {
-        memcpy(abcPerp, abxac, 3 * sizeof(*abcPerp));
+        apex_memcpy(abcPerp, abxac, 3 * sizeof(*abcPerp));
       }
 
       if ((ozVec3Dot(abcPerp, a) < OZ_REAL(0.0)) && !abPerp1Pos && !acPerp2Pos) {
         /* Remove point d */
         ozSimplexRemovePoint(simplex, pos[2]);
-        memcpy(dir, abcPerp, 3 * sizeof(*dir));
+        apex_memcpy(dir, abcPerp, 3 * sizeof(*dir));
         break;
       }
     }
@@ -625,13 +626,13 @@ ozSimplexContainsOrigin(oz_simplex_t *simplex,
         ozVec3SMul(abdPerp, -OZ_REAL(1.0), abxad);
       }
       else {
-        memcpy(abdPerp, abxad, 3 * sizeof(*abdPerp));
+        apex_memcpy(abdPerp, abxad, 3 * sizeof(*abdPerp));
       }
 
       if ((ozVec3Dot(abdPerp, a) < OZ_REAL(0.0)) && !abPerp2Pos && !adPerp1Pos) {
         /* Remove point c */
         ozSimplexRemovePoint(simplex, pos[1]);
-        memcpy(dir, abdPerp, 3 * sizeof(*dir));
+        apex_memcpy(dir, abdPerp, 3 * sizeof(*dir));
         break;
       }
     }
@@ -659,13 +660,13 @@ ozSimplexContainsOrigin(oz_simplex_t *simplex,
         ozVec3SMul(acdPerp, -OZ_REAL(1.0), acxad);
       }
       else {
-        memcpy(acdPerp, acxad, 3 * sizeof(*acdPerp));
+        apex_memcpy(acdPerp, acxad, 3 * sizeof(*acdPerp));
       }
 
       if ((ozVec3Dot(acdPerp, a) < OZ_REAL(0.0)) && !acPerp1Pos && !adPerp2Pos) {
         /* Remove point b */
         ozSimplexRemovePoint(simplex, pos[0]);
-        memcpy(dir, acdPerp, 3 * sizeof(*dir));
+        apex_memcpy(dir, acdPerp, 3 * sizeof(*dir));
         break;
       }
     }
@@ -750,7 +751,7 @@ ozSimplexContainsOrigin(oz_simplex_t *simplex,
       ozVec3SMul(dir, -OZ_REAL(1.0), abxac);
     }
     else {
-      memcpy(dir, abxac, 3 * sizeof(*dir));
+      apex_memcpy(dir, abxac, 3 * sizeof(*dir));
     }
 
     break;
