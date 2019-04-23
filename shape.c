@@ -10,6 +10,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "type.h"
 #include "vec3.h"
 #include "quat.h"
 #include "shape.h"

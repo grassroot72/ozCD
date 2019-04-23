@@ -13,6 +13,7 @@
 #include <math.h>
 #include <float.h>
 #include "compiler.h"
+#include "sse_mathfun.h"
 
 
 #ifndef OZ_SINGLE

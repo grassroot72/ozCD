@@ -7,6 +7,7 @@
   This code is licensed under the MIT license
 */
 
+#include "type.h"
 #include "vec3.h"
 #include "simplex.h"
 
