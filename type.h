@@ -11,6 +11,8 @@
 #ifndef _OZ_TYPE_H_
 #define _OZ_TYPE_H_
 
+#include <smmintrin.h>
+
 
 typedef unsigned int oz_uint_t;
 typedef unsigned char oz_uchar_t;

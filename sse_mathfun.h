@@ -2,7 +2,6 @@
 #ifndef _OZ_SSE_MATHFUN_H_
 #define _OZ_SSE_MATHFUN_H_
 
-#include <smmintrin.h>
 #include "type.h"
 
 
