@@ -1,11 +1,9 @@
 /*
-  ccd.c
-
-  Copyright (c) 2017 Nikos Tasios
-  Copyright (C) 2019 by Edward LEI
-
-  This code is licensed under the MIT license
-*/
+ * Copyright (c) 2017 Nikos Tasios
+ * Copyright (C) 2019 Edward LEI <edward_lei72@hotmail.com>
+ *
+ * The code is licensed under the MIT license
+ */
 
 #include "vec3.h"
 #include "quat.h"

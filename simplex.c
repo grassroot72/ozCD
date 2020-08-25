@@ -1,11 +1,9 @@
 /*
-  simplex.c
-
-  Copyright (c) 2017 Nikos Tasios
-  Copyright (C) 2019 by Edward LEI
-
-  This code is licensed under the MIT license
-*/
+ * Copyright (c) 2017 Nikos Tasios
+ * Copyright (C) 2019 Edward LEI <edward_lei72@hotmail.com>
+ *
+ * The code is licensed under the MIT license
+ */
 
 #include "type.h"
 #include "vec3.h"
@@ -545,7 +543,7 @@ ozSimplexClosest(oz_simplex_t *simplex,
   }
 }
 
-/* Check if the origin is contained in the simplex and 
+/* Check if the origin is contained in the simplex and
    update the search direction, dir.
 */
 int

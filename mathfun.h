@@ -1,11 +1,9 @@
 /*
-  mathfun.h
-
-  Copyright (c) 2017 Nikos Tasios
-  Copyright (C) 2019 by Edward LEI
-
-  This code is licensed under the MIT license
-*/
+ * Copyright (c) 2017 Nikos Tasios
+ * Copyright (C) 2019 Edward LEI <edward_lei72@hotmail.com>
+ *
+ * The code is licensed under the MIT license
+ */
 
 #ifndef _OZ_MATHFUN_H_
 #define _OZ_MATHFUN_H_
@@ -67,11 +65,11 @@ typedef double oz_real_t;
 #define OZ_ZERO OZ_REAL(0.)
 
 
-#ifndef OZ_GJK_ERROR_TOLERANCE 
+#ifndef OZ_GJK_ERROR_TOLERANCE
 #define OZ_GJK_ERROR_TOLERANCE 10.0 * OZ_EPS
 #endif
 
-#ifndef OZ_GJK_RELATIVE_ERROR 
+#ifndef OZ_GJK_RELATIVE_ERROR
 #define OZ_GJK_RELATIVE_ERROR 1.0e-4
 #define OZ_GJK_RELATIVE_ERROR2 OZ_GJK_RELATIVE_ERROR * OZ_GJK_RELATIVE_ERROR
 #endif

@@ -1,13 +1,11 @@
 /*
-  apex_memmove.c
-
-  Apex memmove of T. Herselman.
-  The fastest memcpy/memmove on x86/x64 ... EVER,
-  written in C (according to the author).
-
-  The original version has some fallback functions to use SSE/SSE2/SSE3,
-  I only keep the SSE4.2 version since most computers now support SSE4.2
-*/
+ * Apex memmove of T. Herselman.
+ * The fastest memcpy/memmove on x86/x64 ... EVER,
+ * written in C (according to the author).
+ *
+ * The original version has some fallback functions to use SSE/SSE2/SSE3,
+ * I only keep the SSE4.2 version since most computers now support SSE4.2
+ */
 
 
 #include <emmintrin.h>   /* Intel/AMD SSE intrinsics */
@@ -16,12 +14,12 @@
 
 
 void *apex_kryptonite(void *dst, const void *src, size_t size)
-{	
+{
   /*
-    based on memmove09 for "size <= 112" and memmove41 for "size > 112";
-    memmove09's "size <= 112" proved fastest overall (weighted), 
-    even on Core i5!
-  */
+   * based on memmove09 for "size <= 112" and memmove41 for "size > 112";
+   * memmove09's "size <= 112" proved fastest overall (weighted),
+   * even on Core i5!
+   */
   if (size <= 112) {
 
     if (size >= 16) {
@@ -353,9 +351,9 @@ void *apex_kryptonite(void *dst, const void *src, size_t size)
           if (size > 16) {
             size = -size;
             /*
-              The order has been mixed so the compiler 
-              will not re-order the statements!
-            */
+             * The order has been mixed so the compiler
+             * will not re-order the statements!
+             */
             const __m128i xmm7 = _mm_loadu_si128( (__m128i*)((char*)src + size) );
             const __m128i xmm0 = _mm_loadu_si128( (__m128i*)((char*)src - 16) );
             _mm_storeu_si128( (__m128i*)((char*)dst + size), xmm7 );
@@ -386,9 +384,9 @@ void *apex_kryptonite(void *dst, const void *src, size_t size)
               *(long long*)dst = rcx;
             }
             /*
-              different on purpose, because we know the exact size now,
-              which is 8, and "dst" has already been aligned!
-            */
+             * different on purpose, because we know the exact size now,
+             * which is 8, and "dst" has already been aligned!
+             */
             else *(long long*)dst = rax;
           }
           else if (prealign >= 4) {
@@ -474,7 +472,6 @@ void *apex_kryptonite(void *dst, const void *src, size_t size)
           const __m128i xmm0 = _mm_loadu_si128( (__m128i*)((char*)src - 16) );
 
           if (size > 16) {
-
             if (size > 32) {
               size = -size;
               const __m128i xmm1 = _mm_loadu_si128( (__m128i*)((char*)src - 32) );
@@ -504,9 +501,9 @@ void *apex_kryptonite(void *dst, const void *src, size_t size)
 
         if (size > 8) {
           /*
-            that's right, we're converting an unsigned value to a negative,
-            saves 2 clock cycles!
-          */
+           * that's right, we're converting an unsigned value to a negative,
+           * saves 2 clock cycles!
+           */
           size = -size;
           long long rcx = *(long long*)((char*)src + size);
           *(long long*)((char*)dst - 8) = rax;

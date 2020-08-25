@@ -1,4 +1,4 @@
-# ozCD makefile
+# ccdtest makefile
 
 CC = gcc
 CFLAGS = -O2 -Wall -I /usr/include -D OZ_SINGLE -D BARY_GEPP
@@ -7,8 +7,8 @@ OBJS = apex_memmove.o \
        shape.o \
        simplex.o \
        ccd.o \
-       main.o
-EXE = ozccd
+       test.o
+EXE = ccdtest
 
 
 all: $(EXE)
